@@ -12,9 +12,13 @@ module.exports = {
 
     const ong_id = await getOngIDByToken(token);
 
-    const [id] = await connection('incident').insert({title, description, value, ong_id});
+    if (ong_id !== null) {
+      const [id] = await connection('incident').insert({title, description, value, ong_id});
 
-    return response.json({ id });
+      return response.json({ id });
+    } else {
+      return response.json({ message: `ONG with information ${token} not found` });
+    }
   },
 
   async delete(request, response) {
@@ -24,18 +28,37 @@ module.exports = {
 
       const ong_id = await getOngIDByToken(token);
 
-      const incident = await connection('incident')
-        .where('id', id)
-        .where('ong_id', ong_id)
-        .first();
+      if (ong_id !== null) {
+        const incident = await connection('incident')
+          .where('id', id)
+          .where('ong_id', ong_id)
+          .first();
 
-      if (incident) {
-        await connection('incident').where('id', id).delete();
+        if (incident) {
+          await connection('incident').where('id', id).delete();
 
-        return response.status(204).send();
+          return response.status(204).send();
+        }
+      } else {
+        return response.json({ message: `ONG with information ${token} not found` });
       }
     } catch (error) {
       return response.json(error);
+    }
+  },
+
+  async incidentsByOng(request, response) {
+    const { headers: { authorization: token } } = request;
+
+    const ong_id = await getOngIDByToken(token);
+
+    if (ong_id !== null) {
+      const incidents = await connection('incident')
+      .where('ong_id', ong_id);
+
+      return response.json(incidents);
+    } else {
+      return response.json({ message: `ONG with information ${token} not found` });
     }
   }
 
@@ -46,5 +69,5 @@ const getOngIDByToken = async token => {
   .where('token', token)
   .select('id');
 
-  return String(ong.id);
+  return ong !== undefined ? String(ong.id) : null;
 }
