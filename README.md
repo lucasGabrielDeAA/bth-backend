@@ -2,9 +2,9 @@
 
 This API uses some nice features. Take a look on each one.
 
-[nodemon](https://nodemon.io/gdsf)
-[SQLite](https://www.sqlite.org/)
-[Knex](http://knexjs.org/)
+- [nodemon](https://nodemon.io/gdsf)
+- [SQLite](https://www.sqlite.org/)
+- [Knex](http://knexjs.org/)
 
 # Installing the application
 
