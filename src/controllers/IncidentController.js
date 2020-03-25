@@ -40,7 +40,7 @@ module.exports = {
           return response.status(204).send();
         }
       } else {
-        return response.json({ message: `ONG with information ${token} not found` });
+        return response.status(400).json({ error: `No ONG with this token ${token}` });
       }
     } catch (error) {
       return response.json(error);
@@ -54,7 +54,7 @@ module.exports = {
 
     if (ong_id !== null) {
       const incidents = await connection('incident')
-      .where('ong_id', ong_id);
+      .where('ong_id', ong_id).select('*');
 
       return response.json(incidents);
     } else {
