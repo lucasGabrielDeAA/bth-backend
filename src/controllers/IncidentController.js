@@ -2,23 +2,49 @@ const connection = require('../database');
 
 module.exports = {
   async index(request, response) {
-    const ongs = await connection('incident').select('*');
+    const incidents = await connection('incident').select('*');
 
-    return response.json(ongs);
+    return response.json(incidents);
   },
 
   async create(request, response) {
-    const {title, description, value} = request.body;
+    const { body: { title, description, value }, headers: { authorization: token } } = request;
 
-    const ong_id = await connection('ong').where({'token': request.headers.authorization}, result => {
-      console.log(result);
-    });
+    const ong_id = await getOngIDByToken(token);
 
-    console.log(ong_id);
+    const [id] = await connection('incident').insert({title, description, value, ong_id});
 
-    // await connection('incident').insert({title, description, value});
+    return response.json({ id });
+  },
 
-    return response.json({ ong_id });
+  async delete(request, response) {
+    try {
+      const { headers: { authorization: token }, params } = request;
+      const { id } = params;
+
+      const ong_id = await getOngIDByToken(token);
+
+      const incident = await connection('incident')
+        .where('id', id)
+        .where('ong_id', ong_id)
+        .first();
+
+      if (incident) {
+        await connection('incident').where('id', id).delete();
+
+        return response.status(204).send();
+      }
+    } catch (error) {
+      return response.json(error);
+    }
   }
 
+}
+
+const getOngIDByToken = async token => {
+  const [ong] = await connection('ong')
+  .where('token', token)
+  .select('id');
+
+  return String(ong.id);
 }
