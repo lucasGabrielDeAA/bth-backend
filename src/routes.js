@@ -7,6 +7,7 @@ const OngController = require('./controllers/OngController');
 
 // Incidents
 routes.get('/incidents', IncidentController.index);
+routes.get('/incidents/ong', IncidentController.incidentsByOng);
 routes.post('/incidents', IncidentController.create);
 routes.delete('/incidents/:id', IncidentController.delete);
 
