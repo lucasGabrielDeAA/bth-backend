@@ -15,6 +15,6 @@ module.exports = {
         .json({ error: `No ONG with this token ${token}` });
     }
 
-    return response.json(ong);
+    return response.json({ ...ong, token });
   }
 };
