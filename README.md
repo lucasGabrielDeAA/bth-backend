@@ -13,6 +13,12 @@ This API uses some nice features. Take a look on each one.
   npm install
 ```
 
+# Database
+
+```
+  npx knex migrate:latest
+```
+
 # Starting the application
 
 ```
