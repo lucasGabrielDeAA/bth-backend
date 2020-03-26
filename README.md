@@ -1,4 +1,4 @@
-# omnistack11-backend
+# bth-backend
 
 This API uses some nice features. Take a look on each one.
 
