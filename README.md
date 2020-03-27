@@ -41,4 +41,8 @@ This API uses some nice features. Take a look on each one.
 
   GET - /ongs - Retrieve all the ongs in the database.
   POST - /ongs - Create a new ong and return the ONG's authentication token.
+
+  Session
+
+  POST - /sessions - Authenticate the ong with the token sent.
 ```
