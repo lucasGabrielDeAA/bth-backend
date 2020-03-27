@@ -5,6 +5,7 @@ This API uses some nice features. Take a look on each one.
 - [nodemon](https://nodemon.io/gdsf)
 - [SQLite](https://www.sqlite.org/)
 - [Knex](http://knexjs.org/)
+- [Celebrate](https://github.com/arb/celebrate)
 
 # Installing the application
 
